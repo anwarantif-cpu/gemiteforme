@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commander - Gemiteforme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .order-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 3rem;
+        }
+
+        .order-summary {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            border: 2px solid #e5e5e5;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: var(--accent);
+        }
+
+        .payment-method.active {
+            border-color: var(--accent);
+            background: rgba(255, 101, 132, 0.05);
+        }
+
+        .payment-method img {
+            height: 30px;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .checkbox-group label a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 968px) {
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="text-decoration: none; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gemiteforme</a></div>
+            <ul class="nav-menu">
+                <li><a href="templates.html">Templates</a></li>
+                <li><a href="fonctionnalites.html">Fonctionnalités</a></li>
+                <li><a href="exemples.html">Exemples</a></li>
+                <li><a href="tarifs.html">Tarifs</a></li>
+                <li><a href="connexion.html">Connexion</a></li>
+                <li><a href="commander.html" class="nav-cta">Commencer →</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <h1>Commander votre site</h1>
+        <p>Complétez le formulaire ci-dessous pour commander votre site vitrine en 48h</p>
+    </section>
+
+    <!-- Order Form -->
+    <section class="page-container">
+        <div class="order-container">
+            <div class="order-grid">
+                <!-- Form -->
+                <div class="form-container">
+                    <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--primary);">Informations de commande</h2>
+                    
+                    <form id="orderForm">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--primary);">1. Vos coordonnées</h3>
+                        
+                        <div class="form-group">
+                            <label for="nom">Nom complet *</label>
+                            <input type="text" id="nom" name="nom" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Téléphone *</label>
+                            <input type="tel" id="telephone" name="telephone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="entreprise">Nom de l'entreprise *</label>
+                            <input type="text" id="entreprise" name="entreprise" required>
+                        </div>
+
+                        <hr style="margin: 2.5rem 0; border: none; border-top: 1px solid #e5e5e5;">
+
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--primary);">2. Votre projet</h3>
+
+                        <div class="form-group">
+                            <label for="secteur">Type de site *</label>
+                            <select id="secteur" name="secteur" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="services">Services professionnels</option>
+                                <option value="boutique">Boutique / Commerce</option>
+                                <option value="portfolio">Portfolio / Créatif</option>
+                                <option value="blog">Blog</option>
+                                <option value="evenement">Événementiel</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="restaurant">Restaurant</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description de votre activité *</label>
+                            <textarea id="description" name="description" required placeholder="Décrivez votre entreprise et votre activité en quelques lignes..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="objectifs">Objectifs du site *</label>
+                            <textarea id="objectifs" name="objectifs" required placeholder="Que voulez-vous accomplir avec ce site ? (ex: présenter mes services, attirer des clients, vendre en ligne...)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contenu">Avez-vous déjà vos textes et images ? *</label>
+                            <select id="contenu" name="contenu" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="oui">Oui, j'ai tout</option>
+                                <option value="partiel">J'ai certains éléments</option>
+                                <option value="non">Non, j'ai besoin d'aide</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="preferences">Préférences de design (couleurs, style...)</label>
+                            <textarea id="preferences" name="preferences" placeholder="Décrivez vos préférences en termes de couleurs, style, sites que vous aimez..."></textarea>
+                        </div>
+
+                        <hr style="margin: 2.5rem 0; border: none; border-top: 1px solid #e5e5e5;">
+
+                        <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--primary);">3. Paiement</h3>
+
+                        <div class="payment-methods">
+                            <div class="payment-method active" onclick="selectPayment(this)">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+                                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem;">Carte bancaire</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment(this)">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/PayPal_logo.svg" alt="PayPal">
+                                <div style="font-size: 0.9rem; font-weight: 600; margin-top: 0.5rem;">PayPal</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPayment(this)">
+                                <div style="font-size: 2rem;">🏦</div>
+                                <div style="font-size: 0.9rem; font-weight: 600;">Virement</div>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cgv" name="cgv" required>
+                            <label for="cgv">J'accepte les <a href="cgv.html" target="_blank">conditions générales de vente</a> *</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="confidentialite" name="confidentialite" required>
+                            <label for="confidentialite">J'accepte la <a href="confidentialite.html" target="_blank">politique de confidentialité</a> *</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Je souhaite recevoir les actualités et offres de Gemiteforme</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem; font-size: 1.2rem; padding: 1.3rem;">
+                            Payer 9,99€ et commander →
+                        </button>
+
+                        <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-light);">
+                            🔒 Paiement 100% sécurisé • Livraison garantie en 48h
+                        </p>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--primary);">Récapitulatif</h3>
+                    
+                    <div style="background: var(--gradient-2); padding: 2rem; border-radius: 20px; margin-bottom: 2rem;">
+                        <div style="color: white; text-align: center;">
+                            <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Offre de lancement</div>
+                            <div style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;">9,99€</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">au lieu de 299€</div>
+                        </div>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Site vitrine professionnel</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Design personnalisé</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Responsive (mobile/tablette)</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Optimisation SEO</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Formulaire de contact</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>1 révision</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Fichiers sources</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-item" style="border: none;">
+                        <span>Guide d'utilisation</span>
+                        <strong>Inclus</strong>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total TTC</span>
+                        <span>9,99€</span>
+                    </div>
+
+                    <div style="background: #f8f9ff; padding: 1.5rem; border-radius: 15px; margin-top: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                            <span style="font-size: 1.5rem;">⚡</span>
+                            <strong style="color: var(--primary);">Livraison en 48h</strong>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); line-height: 1.6;">
+                            Votre site sera livré dans un délai maximum de 48 heures après réception de tous vos éléments (textes, images, logo).
+                        </p>
+                    </div>
+
+                    <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 15px; margin-top: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem;">
+                            <span style="font-size: 1.5rem;">✓</span>
+                            <strong style="color: var(--primary);">Garantie satisfait ou remboursé</strong>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-light); line-height: 1.6;">
+                            Si vous n'êtes pas satisfait de votre site, nous vous remboursons intégralement sous 7 jours.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Gemiteforme</h3>
+                <p>Créez votre présence en ligne professionnelle en 48h pour seulement 9,99€.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="templates.html">Templates</a></li>
+                    <li><a href="fonctionnalites.html">Fonctionnalités</a></li>
+                    <li><a href="exemples.html">Exemples</a></li>
+                    <li><a href="tarifs.html">Tarifs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Légal</h3>
+                <ul class="footer-links">
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="cgv.html">CGV</a></li>
+                    <li><a href="confidentialite.html">Confidentialité</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:contact@gemiteforme.com">contact@gemiteforme.com</a></li>
+                    <li>Lun-Ven : 9h-18h</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Gemiteforme. Tous droits réservés. Hébergé par Scaleway.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        function selectPayment(element) {
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Récupérer les données du formulaire
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Simulation de paiement (à remplacer par une vraie intégration Stripe/PayPal)
+            alert('Merci pour votre commande ! Vous allez être redirigé vers la page de paiement sécurisé...\n\nDans une vraie application, cette étape serait connectée à Stripe ou PayPal.');
+            
+            // Redirection vers page de confirmation
+            // window.location.href = 'paiement.html';
+        });
+    </script>
+</body>
+</html>

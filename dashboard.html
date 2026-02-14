@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace - Gemiteforme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .dashboard-container { max-width: 1400px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .dashboard-grid { display: grid; grid-template-columns: 250px 1fr; gap: 3rem; }
+        .sidebar { background: white; padding: 2rem; border-radius: 25px; height: fit-content; position: sticky; top: 100px; }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 0.5rem; }
+        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 15px; color: var(--text); text-decoration: none; transition: all 0.3s; }
+        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--gradient-2); color: white; }
+        .dashboard-content { }
+        .card { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); margin-bottom: 2rem; }
+        .order-status { display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-progress { background: #cfe2ff; color: #084298; }
+        .status-completed { background: #d1e7dd; color: #0f5132; }
+        @media (max-width: 968px) { .dashboard-grid { grid-template-columns: 1fr; } .sidebar { position: relative; top: 0; } }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="text-decoration: none; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gemiteforme</a></div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Mon Espace</a></li>
+                <li><a href="#" onclick="logout()">Déconnexion</a></li>
+            </ul>
+            <div class="mobile-toggle"><span></span><span></span><span></span></div>
+        </nav>
+    </header>
+
+    <section class="dashboard-container">
+        <div class="dashboard-grid">
+            <aside class="sidebar">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="width: 80px; height: 80px; background: var(--gradient-2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 800;">JD</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">Jean Dupont</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">jean@example.com</p>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active"><span>📊</span> Mes commandes</a></li>
+                    <li><a href="#"><span>⚙️</span> Paramètres</a></li>
+                    <li><a href="#"><span>💳</span> Facturation</a></li>
+                    <li><a href="#"><span>🎫</span> Support</a></li>
+                </ul>
+            </aside>
+
+            <main class="dashboard-content">
+                <h1 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--primary);">Mes Commandes</h1>
+
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                        <div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">Commande #12345</h3>
+                            <p style="color: var(--text-light);">Passée le 10 février 2024</p>
+                        </div>
+                        <span class="order-status status-progress">En cours</span>
+                    </div>
+
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="padding: 1.5rem; background: var(--bg); border-radius: 15px;">
+                            <h4 style="font-weight: 600; margin-bottom: 1rem;">📦 Étapes de livraison</h4>
+                            <div style="position: relative; padding-left: 2rem;">
+                                <div style="position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #e5e5e5;"></div>
+                                <div style="margin-bottom: 1.5rem; position: relative;">
+                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; border: 3px solid white;"></div>
+                                    <strong>✓ Commande reçue</strong>
+                                    <p style="color: var(--text-light); font-size: 0.9rem;">10 février 2024, 14:30</p>
+                                </div>
+                                <div style="margin-bottom: 1.5rem; position: relative;">
+                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; border: 3px solid white;"></div>
+                                    <strong>✓ Informations complétées</strong>
+                                    <p style="color: var(--text-light); font-size: 0.9rem;">10 février 2024, 15:00</p>
+                                </div>
+                                <div style="margin-bottom: 1.5rem; position: relative;">
+                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; border: 3px solid white; animation: pulse 2s infinite;"></div>
+                                    <strong>🔄 Design en cours</strong>
+                                    <p style="color: var(--text-light); font-size: 0.9rem;">Livraison prévue : 12 février 2024</p>
+                                </div>
+                                <div style="position: relative;">
+                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: #e5e5e5; border-radius: 50%; border: 3px solid white;"></div>
+                                    <strong style="color: var(--text-light);">Livraison</strong>
+                                    <p style="color: var(--text-light); font-size: 0.9rem;">En attente</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="padding: 1.5rem; background: var(--bg); border-radius: 15px;">
+                            <h4 style="font-weight: 600; margin-bottom: 1rem;">📄 Détails de la commande</h4>
+                            <div style="display: grid; gap: 0.8rem;">
+                                <div style="display: flex; justify-content: space-between;"><span>Type de site :</span><strong>Portfolio</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Entreprise :</span><strong>Studio Photo JD</strong></div>
+                                <div style="display: flex; justify-content: space-between;"><span>Montant :</span><strong style="color: var(--accent);">9,99€</strong></div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="alert('Ouvrir le chat support')">💬 Contacter le support</button>
+                            <button class="btn btn-secondary" onclick="alert('Télécharger la facture')">📥 Télécharger la facture</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding: 3rem; background: white; border-radius: 25px;">
+                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Besoin d'un autre site ?</p>
+                    <a href="commander.html" class="btn btn-primary">Commander un nouveau site →</a>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-section"><h3>Gemiteforme</h3><p>Créez votre présence en ligne professionnelle en 48h.</p></div>
+            <div class="footer-section"><h3>Navigation</h3><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="tarifs.html">Tarifs</a></li></ul></div>
+            <div class="footer-section"><h3>Légal</h3><ul class="footer-links"><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li></ul></div>
+            <div class="footer-section"><h3>Contact</h3><ul class="footer-links"><li><a href="mailto:contact@gemiteforme.com">contact@gemiteforme.com</a></li></ul></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2024 Gemiteforme. Hébergé par Scaleway.</p></div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        function logout() { alert('Déconnexion...'); window.location.href = 'index.html'; }
+    </script>
+    <style>@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }</style>
+</body>
+</html>
