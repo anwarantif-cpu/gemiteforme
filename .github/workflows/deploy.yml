@@ -1,0 +1,24 @@
+name: Deploy to Scaleway
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /var/www/gemiteforme.fr
+          git pull origin main
+          chown -R www-data:www-data /var/www/gemiteforme.fr
+          chmod -R 755 /var/www/gemiteforme.fr
+          systemctl reload nginx
+          echo "✅ Déploiement réussi !"
