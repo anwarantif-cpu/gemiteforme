@@ -7,107 +7,116 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .ticket-container { max-width: 1000px; margin: 0 auto; padding: 8rem 2rem 4rem; }
-        .ticket-header { background: white; padding: 2.5rem; border-radius: 25px; margin-bottom: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
-        .ticket-priority { display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; }
-        .priority-high { background: #fee; color: #c00; }
-        .priority-medium { background: #ffc; color: #880; }
-        .priority-low { background: #efe; color: #080; }
-        .message-thread { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
-        .message { padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem; }
-        .message.customer { background: var(--bg); border-left: 4px solid var(--accent); }
-        .message.support { background: #f0fdf4; border-left: 4px solid #0f5132; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f8f9fa; font-family: 'Lexend', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #f5576c; text-decoration: none; font-weight: 600; margin-bottom: 2rem; }
+        .back-link:hover { text-decoration: underline; }
+        .ticket-header { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .ticket-title { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin: 0 0 1rem 0; }
+        .ticket-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .badge { display: inline-block; padding: 0.6rem 1.2rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; }
+        .badge-medium { background: #fff3cd; color: #856404; }
+        .badge-high { background: #fee; color: #c00; }
+        .badge-low { background: #efe; color: #080; }
+        .badge-progress { background: #cfe2ff; color: #084298; }
+        .badge-resolved { background: #d1e7dd; color: #0f5132; }
+        .ticket-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; background: #f8f9fa; padding: 2rem; border-radius: 15px; }
+        .message-thread { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .message { padding: 2rem; border-radius: 15px; margin-bottom: 2rem; border-left: 4px solid; }
+        .message.customer { background: #f8f9fa; border-color: #f5576c; }
+        .message.support { background: #f0fdf4; border-color: #28a745; }
         .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .message-author { font-weight: 700; color: var(--primary); }
-        .message-time { font-size: 0.9rem; color: var(--text-light); }
-        .reply-box { background: white; padding: 2rem; border-radius: 25px; margin-top: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
-        .attachment { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: white; border-radius: 10px; margin-right: 0.5rem; margin-top: 0.5rem; }
+        .message-author { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .message-time { color: #6c757d; font-size: 0.9rem; }
+        .message-content { line-height: 1.8; color: #495057; }
+        .attachment { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.2rem; background: white; border-radius: 10px; margin-right: 0.5rem; margin-top: 1rem; border: 2px solid #e9ecef; }
+        .reply-box { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary); }
+        .form-group textarea { width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 15px; font-family: 'Lexend', sans-serif; resize: vertical; font-size: 1rem; }
+        .form-group input[type="file"] { width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 15px; }
+        .btn { padding: 1rem 2rem; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,87,108,0.3); }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><a href="index.html" style="text-decoration: none; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gemiteforme</a></div>
-            <ul class="nav-menu">
-                <li><a href="dashboard.html">Mon Espace</a></li>
-                <li><a href="#" onclick="logout()">Déconnexion</a></li>
-            </ul>
-            <div class="mobile-toggle"><span></span><span></span><span></span></div>
-        </nav>
-    </header>
-
-    <section class="ticket-container">
-        <a href="dashboard.html" onclick="history.back(); return false;" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent); text-decoration: none; margin-bottom: 2rem; font-weight: 600;">
-            ← Retour au dashboard
-        </a>
-
+    <div class="container">
+        <a href="dashboard.html" class="back-link">← Retour au dashboard</a>
+        
         <div class="ticket-header">
-            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
-                    <h1 style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">Ticket #00123</h1>
-                    <h2 style="font-size: 1.5rem; color: var(--text); margin-bottom: 1rem;">Modification du logo</h2>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <span class="ticket-priority priority-medium">Priorité moyenne</span>
-                        <span style="display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; background: #cfe2ff; color: #084298;">En cours</span>
-                        <span style="display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; background: var(--bg); color: var(--text-light);">Modification</span>
-                    </div>
+                    <div style="color: #6c757d; font-size: 0.9rem; margin-bottom: 0.5rem;">Ticket</div>
+                    <h1 class="ticket-title">#00123</h1>
+                    <h2 style="font-size: 1.8rem; color: #495057; margin: 0;">Modification du logo</h2>
                 </div>
-                <button class="btn btn-secondary" onclick="if(confirm('Êtes-vous sûr de vouloir fermer ce ticket ?')) alert('Ticket fermé')">Fermer le ticket</button>
+                <button class="btn btn-secondary" onclick="if(confirm('Fermer ce ticket ?')) alert('Ticket fermé')">Fermer le ticket</button>
             </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; padding: 1.5rem; background: var(--bg); border-radius: 15px;">
+            
+            <div class="ticket-meta">
+                <span class="badge badge-medium">📌 Priorité moyenne</span>
+                <span class="badge badge-progress">🔄 En cours</span>
+                <span class="badge" style="background: #e9ecef; color: #495057;">📁 Modification</span>
+            </div>
+            
+            <div class="ticket-info-grid">
                 <div>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.3rem;">Créé le</p>
-                    <p style="font-weight: 600;">14 février 2024, 10:35</p>
+                    <div style="color: #6c757d; font-size: 0.85rem; margin-bottom: 0.3rem;">Créé le</div>
+                    <div style="font-weight: 700; color: var(--primary);">14 février 2024, 10:35</div>
                 </div>
                 <div>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.3rem;">Dernière réponse</p>
-                    <p style="font-weight: 600;">14 février 2024, 15:42</p>
+                    <div style="color: #6c757d; font-size: 0.85rem; margin-bottom: 0.3rem;">Dernière réponse</div>
+                    <div style="font-weight: 700; color: var(--primary);">14 février 2024, 15:42</div>
                 </div>
                 <div>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.3rem;">Assigné à</p>
-                    <p style="font-weight: 600;">Marie Dupont (Support)</p>
+                    <div style="color: #6c757d; font-size: 0.85rem; margin-bottom: 0.3rem;">Assigné à</div>
+                    <div style="font-weight: 700; color: var(--primary);">👩‍💼 Marie Dupont</div>
                 </div>
                 <div>
-                    <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.3rem;">Temps de réponse</p>
-                    <p style="font-weight: 600; color: #0f5132;">2h 15min</p>
+                    <div style="color: #6c757d; font-size: 0.85rem; margin-bottom: 0.3rem;">Temps de réponse</div>
+                    <div style="font-weight: 700; color: #28a745;">⚡ 2h 15min</div>
                 </div>
             </div>
         </div>
-
+        
         <div class="message-thread">
-            <h3 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--primary);">Historique de la conversation</h3>
-
+            <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 2rem;">💬 Conversation</h3>
+            
             <div class="message customer">
                 <div class="message-header">
                     <span class="message-author">👤 Vous (Jean Dupont)</span>
                     <span class="message-time">14 février 2024, 10:35</span>
                 </div>
-                <p style="line-height: 1.8; color: var(--text);">
+                <div class="message-content">
                     Bonjour,<br><br>
                     Je souhaiterais modifier le logo sur mon site pour utiliser la nouvelle version que nous venons de créer. 
                     Le nouveau logo est en pièce jointe.<br><br>
                     Pourriez-vous le remplacer sur toutes les pages et dans le favicon ?<br><br>
                     Merci d'avance !
-                </p>
-                <div style="margin-top: 1rem;">
-                    <strong style="font-size: 0.9rem; color: var(--text-light);">Pièces jointes :</strong>
-                    <div style="margin-top: 0.5rem;">
-                        <div class="attachment">
-                            <span>📎</span>
-                            <span>nouveau-logo.png</span>
-                            <span style="color: var(--text-light); font-size: 0.85rem;">(245 KB)</span>
-                        </div>
+                </div>
+                <div>
+                    <strong style="font-size: 0.9rem; color: #6c757d; display: block; margin-top: 1rem;">📎 Pièces jointes :</strong>
+                    <div class="attachment">
+                        <span>📄</span>
+                        <span>nouveau-logo.png</span>
+                        <span style="color: #6c757d; font-size: 0.85rem;">(245 KB)</span>
+                        <button style="background: none; border: none; color: #f5576c; cursor: pointer; margin-left: 0.5rem;">⬇️</button>
                     </div>
                 </div>
             </div>
-
+            
             <div class="message support">
                 <div class="message-header">
                     <span class="message-author">👩‍💼 Marie Dupont (Support Gemiteforme)</span>
                     <span class="message-time">14 février 2024, 12:50</span>
                 </div>
-                <p style="line-height: 1.8; color: var(--text);">
+                <div class="message-content">
                     Bonjour Jean,<br><br>
                     Merci pour votre message ! J'ai bien reçu votre nouveau logo.<br><br>
                     Je vais procéder au remplacement sur l'ensemble de votre site. Cela inclura :<br>
@@ -118,69 +127,48 @@
                     La mise à jour sera effectuée dans les 2 heures. Je vous préviendrai dès que c'est fait.<br><br>
                     Cordialement,<br>
                     Marie
-                </p>
+                </div>
             </div>
-
+            
             <div class="message support">
                 <div class="message-header">
                     <span class="message-author">👩‍💼 Marie Dupont (Support Gemiteforme)</span>
                     <span class="message-time">14 février 2024, 15:42</span>
                 </div>
-                <p style="line-height: 1.8; color: var(--text);">
+                <div class="message-content">
                     Bonjour Jean,<br><br>
-                    ✅ C'est fait ! Votre nouveau logo a été mis en place sur toutes les pages de votre site.<br><br>
-                    Vous pouvez vérifier le résultat sur : <a href="#" style="color: var(--accent);">https://votresite.com</a><br><br>
+                    ✅ <strong>C'est fait !</strong> Votre nouveau logo a été mis en place sur toutes les pages de votre site.<br><br>
+                    Vous pouvez vérifier le résultat sur : <a href="#" style="color: #f5576c; font-weight: 600;">https://votresite.com</a><br><br>
                     N'hésitez pas si vous souhaitez d'autres ajustements !<br><br>
                     Bonne journée,<br>
                     Marie
-                </p>
+                </div>
             </div>
         </div>
-
+        
         <div class="reply-box">
-            <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--primary);">Répondre</h3>
-            <form onsubmit="sendReply(event)">
-                <div style="margin-bottom: 1.5rem;">
-                    <textarea rows="6" placeholder="Écrivez votre message..." style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px; font-family: 'Lexend', sans-serif; resize: vertical;" required></textarea>
+            <h3 style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 2rem;">✍️ Répondre au ticket</h3>
+            <form onsubmit="alert('Message envoyé !'); return false;">
+                <div class="form-group">
+                    <label>Votre message</label>
+                    <textarea rows="6" placeholder="Écrivez votre réponse..." required></textarea>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Ajouter des pièces jointes</label>
-                    <input type="file" multiple style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                    <small style="color: var(--text-light);">Max 10 Mo par fichier</small>
+                <div class="form-group">
+                    <label>Ajouter des pièces jointes (optionnel)</label>
+                    <input type="file" multiple>
+                    <small style="color: #6c757d; display: block; margin-top: 0.5rem;">Max 10 Mo par fichier</small>
                 </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn btn-primary">Envoyer le message</button>
-                    <button type="button" class="btn btn-secondary" onclick="if(confirm('Voulez-vous marquer ce ticket comme résolu ?')) { alert('Ticket marqué comme résolu'); window.location.href='dashboard.html'; }">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">📤 Envoyer le message</button>
+                    <button type="button" class="btn btn-success" onclick="if(confirm('Marquer comme résolu ?')) { alert('Ticket résolu !'); window.location.href='dashboard.html'; }">
                         ✅ Marquer comme résolu
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.html'">
+                        Annuler
                     </button>
                 </div>
             </form>
         </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section"><h3>Gemiteforme</h3><p>Créez votre présence en ligne professionnelle en 48h.</p></div>
-            <div class="footer-section"><h3>Navigation</h3><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="tarifs.html">Tarifs</a></li></ul></div>
-            <div class="footer-section"><h3>Légal</h3><ul class="footer-links"><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li></ul></div>
-            <div class="footer-section"><h3>Contact</h3><ul class="footer-links"><li><a href="mailto:contact@gemiteforme.com">contact@gemiteforme.com</a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2024 Gemiteforme. Hébergé par Scaleway.</p></div>
-    </footer>
-
-    <script src="assets/js/main.js"></script>
-    <script>
-        function sendReply(e) {
-            e.preventDefault();
-            alert('✅ Votre message a été envoyé !\n\nNotre équipe vous répondra dans les plus brefs délais.');
-            e.target.reset();
-        }
-
-        function logout() {
-            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                window.location.href = 'index.html';
-            }
-        }
-    </script>
+    </div>
 </body>
 </html>

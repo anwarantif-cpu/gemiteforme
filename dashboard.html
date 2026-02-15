@@ -566,7 +566,7 @@
             <div class="user-avatar">JD</div>
             <div>
                 <div style="font-weight: 700; font-size: 1.05rem;">Jean Dupont</div>
-                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3d57585c537d58455c504d5158135e5250">[email&#160;protected]</a></div>
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">jean@example.com</div>
             </div>
         </div>
         
@@ -867,7 +867,7 @@
                         <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <strong>📧 Email professionnel</strong>
-                                <p style="color: #6c757d; margin: 0.3rem 0 0 0; font-size: 0.9rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbb8b4b5afbab8af9badb4afa9bebeb5afa9beaba9b2a8bef5bda9">[email&#160;protected]</a></p>
+                                <p style="color: #6c757d; margin: 0.3rem 0 0 0; font-size: 0.9rem;">contact@votreentreprise.fr</p>
                             </div>
                             <span style="font-weight: 700;">5€/mois</span>
                         </div>
@@ -995,7 +995,7 @@
                             <span class="icon">📖</span>
                             Documentation
                         </a>
-                        <a href="/cdn-cgi/l/email-protection#27545257574855536740424a4e53424148554a420944484a" class="quick-action-btn secondary">
+                        <a href="mailto:support@gemiteforme.com" class="quick-action-btn secondary">
                             <span class="icon">📧</span>
                             Email support
                         </a>
@@ -1038,7 +1038,7 @@
         </div>
     </main>
     
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
     <script>
         function showSection(sectionId) {
             // Masquer toutes les sections
@@ -1067,4 +1067,17 @@
                 'support': 'Support',
                 'settings': 'Paramètres'
             };
-            document.getElementById('pageTitle').textContent 
+            document.getElementById('pageTitle').textContent = titles[sectionId] || 'Dashboard';
+            
+            // Fermer le menu mobile si ouvert
+            if (window.innerWidth <= 968) {
+                document.getElementById('sidebar').classList.remove('active');
+            }
+        }
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau ticket - Gemiteforme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f8f9fa; font-family: 'Lexend', sans-serif; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .page-title { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin-bottom: 0.5rem; }
+        .page-subtitle { color: #6c757d; font-size: 1.1rem; margin-bottom: 3rem; }
+        .form-card { background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .form-group { margin-bottom: 2rem; }
+        .form-group label { display: block; margin-bottom: 0.8rem; font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem 1.2rem; border: 2px solid #e9ecef; border-radius: 12px; font-family: 'Lexend', sans-serif; font-size: 1rem; transition: all 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #f5576c; box-shadow: 0 0 0 3px rgba(245,87,108,0.1); }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+        .form-group small { display: block; margin-top: 0.5rem; color: #6c757d; font-size: 0.9rem; }
+        .btn { padding: 1.2rem 2.5rem; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; font-size: 1.05rem; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,87,108,0.3); }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .priority-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+        .priority-option { padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .priority-option:hover { border-color: #f5576c; }
+        .priority-option input { display: none; }
+        .priority-option input:checked + label { border-color: #f5576c; background: rgba(245,87,108,0.1); }
+        .priority-option label { cursor: pointer; font-weight: 600; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #f5576c; text-decoration: none; font-weight: 600; margin-bottom: 2rem;">
+            ← Retour au dashboard
+        </a>
+        
+        <h1 class="page-title">Créer un ticket de support</h1>
+        <p class="page-subtitle">Notre équipe vous répondra dans les plus brefs délais</p>
+        
+        <div class="form-card">
+            <form onsubmit="createTicket(event)">
+                <div class="form-group">
+                    <label for="category">Catégorie du problème *</label>
+                    <select id="category" required>
+                        <option value="">Sélectionnez une catégorie...</option>
+                        <option value="technique">🔧 Problème technique</option>
+                        <option value="modification">✏️ Demande de modification</option>
+                        <option value="contenu">📝 Modification de contenu</option>
+                        <option value="facturation">💳 Question facturation</option>
+                        <option value="domaine">🌐 Nom de domaine</option>
+                        <option value="email">📧 Email professionnel</option>
+                        <option value="seo">📈 SEO et référencement</option>
+                        <option value="autre">💬 Autre question</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Priorité *</label>
+                    <div class="priority-options">
+                        <div class="priority-option">
+                            <input type="radio" name="priority" id="low" value="low">
+                            <label for="low">🟢 Basse</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="radio" name="priority" id="medium" value="medium" checked>
+                            <label for="medium">🟡 Moyenne</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="radio" name="priority" id="high" value="high">
+                            <label for="high">🟠 Haute</label>
+                        </div>
+                        <div class="priority-option">
+                            <input type="radio" name="priority" id="urgent" value="urgent">
+                            <label for="urgent">🔴 Urgente</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Sujet *</label>
+                    <input type="text" id="subject" placeholder="Ex: Problème d'affichage sur mobile" required>
+                    <small>Décrivez brièvement votre problème</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description détaillée *</label>
+                    <textarea id="description" placeholder="Décrivez votre problème ou demande en détail...
+
+Informations utiles :
+- Qu'avez-vous tenté de faire ?
+- Que s'est-il passé ?
+- Quel était le résultat attendu ?
+- Sur quel appareil/navigateur ?
+
+Plus vous serez précis, plus nous pourrons vous aider rapidement." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="url">URL de la page concernée (optionnel)</label>
+                    <input type="url" id="url" placeholder="https://votresite.com/page-concernee">
+                </div>
+                
+                <div class="form-group">
+                    <label for="attachments">Pièces jointes (optionnel)</label>
+                    <input type="file" id="attachments" multiple accept="image/*,.pdf,.doc,.docx">
+                    <small>Captures d'écran, documents... (Max 10 Mo par fichier)</small>
+                </div>
+                
+                <div style="background: #f0f7ff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0d6efd; margin-bottom: 2rem;">
+                    <strong style="color: #0d6efd;">💡 Temps de réponse estimés :</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem; color: #495057;">
+                        <li>Priorité basse : 24-48h</li>
+                        <li>Priorité moyenne : 12-24h</li>
+                        <li>Priorité haute : 4-12h</li>
+                        <li>Priorité urgente : 1-4h</li>
+                    </ul>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn btn-primary">📤 Créer le ticket</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Annuler</button>
+                </div>
+            </form>
+        </div>
+        
+        <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-top: 2rem;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">Besoin d'aide immédiate ?</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <a href="#" style="padding: 1.5rem; background: #f8f9fa; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📖</div>
+                    <strong>Documentation</strong>
+                    <p style="font-size: 0.9rem; color: #6c757d; margin: 0.3rem 0 0 0;">Consultez nos guides</p>
+                </a>
+                <a href="mailto:support@gemiteforme.com" style="padding: 1.5rem; background: #f8f9fa; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📧</div>
+                    <strong>Email direct</strong>
+                    <p style="font-size: 0.9rem; color: #6c757d; margin: 0.3rem 0 0 0;">support@gemiteforme.com</p>
+                </a>
+                <a href="#" style="padding: 1.5rem; background: #f8f9fa; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                    <strong>Chat en direct</strong>
+                    <p style="font-size: 0.9rem; color: #6c757d; margin: 0.3rem 0 0 0;">Lun-Ven 9h-18h</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function createTicket(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('category').value;
+            const priority = document.querySelector('input[name="priority"]:checked').value;
+            const subject = document.getElementById('subject').value;
+            const description = document.getElementById('description').value;
+            
+            const ticketNumber = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+            
+            const priorityNames = {
+                'low': 'basse',
+                'medium': 'moyenne',
+                'high': 'haute',
+                'urgent': 'urgente'
+            };
+            
+            const responseTime = {
+                'low': '24-48h',
+                'medium': '12-24h',
+                'high': '4-12h',
+                'urgent': '1-4h'
+            };
+            
+            alert(`✅ Ticket #${ticketNumber} créé avec succès !
+
+Sujet : ${subject}
+Priorité : ${priorityNames[priority]}
+Temps de réponse estimé : ${responseTime[priority]}
+
+Notre équipe a été notifiée et vous répondra dans les meilleurs délais.
+
+Vous pouvez suivre votre ticket depuis votre dashboard.`);
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

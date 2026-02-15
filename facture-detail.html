@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture #2024-003 - Gemiteforme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f8f9fa; font-family: 'Lexend', sans-serif; }
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .invoice-paper { background: white; padding: 4rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .invoice-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 3rem; flex-wrap: wrap; gap: 2rem; }
+        .logo { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .invoice-title { font-size: 3rem; font-weight: 900; color: var(--primary); margin: 0; }
+        .invoice-number { font-size: 1.5rem; font-weight: 700; color: #f5576c; margin-top: 0.5rem; }
+        .info-block { background: #f8f9fa; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; }
+        .table-invoice { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+        .table-invoice thead { background: #f8f9fa; }
+        .table-invoice th { padding: 1rem; text-align: left; font-weight: 700; color: var(--primary); }
+        .table-invoice td { padding: 1.5rem 1rem; border-bottom: 1px solid #e9ecef; }
+        .total-row { background: #f8f9fa; font-weight: 700; }
+        .grand-total { font-size: 1.8rem; color: #f5576c; }
+        .paid-badge { background: #d1e7dd; color: #0f5132; padding: 1.5rem 2rem; border-radius: 15px; border-left: 4px solid #28a745; }
+        .btn { padding: 1rem 2rem; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        @media print {
+            .no-print { display: none !important; }
+            .invoice-paper { box-shadow: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="no-print" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <a href="dashboard.html" style="color: #f5576c; text-decoration: none; font-weight: 600;">← Retour au dashboard</a>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimer</button>
+                <button class="btn btn-primary" onclick="alert('Téléchargement PDF...')">📥 Télécharger PDF</button>
+            </div>
+        </div>
+        
+        <div class="invoice-paper">
+            <div class="invoice-header">
+                <div>
+                    <div class="logo">Gemiteforme</div>
+                    <p style="color: #6c757d; margin-top: 1rem; line-height: 1.6;">
+                        123 Avenue des Champs-Élysées<br>
+                        75008 Paris, France<br>
+                        SIRET : XXX XXX XXX XXXXX<br>
+                        TVA : FR XX XXX XXX XXX
+                    </p>
+                </div>
+                <div style="text-align: right;">
+                    <h1 class="invoice-title">FACTURE</h1>
+                    <div class="invoice-number">#2024-003</div>
+                    <p style="color: #6c757d; margin-top: 1rem;">
+                        <strong>Date :</strong> 15 février 2024<br>
+                        <strong>Échéance :</strong> 15 février 2024
+                    </p>
+                </div>
+            </div>
+            
+            <div class="info-block">
+                <strong style="color: var(--primary); display: block; margin-bottom: 1rem;">Facturé à :</strong>
+                <div style="line-height: 1.8;">
+                    <strong>Jean Dupont</strong><br>
+                    Studio Photo JD<br>
+                    45 Rue de la République<br>
+                    69002 Lyon, France<br>
+                    Email : jean@example.com
+                </div>
+            </div>
+            
+            <table class="table-invoice">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th style="text-align: center; width: 100px;">Qté</th>
+                        <th style="text-align: right; width: 120px;">Prix unitaire</th>
+                        <th style="text-align: right; width: 120px;">Total HT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Abonnement Business - Février 2024</strong><br>
+                            <span style="font-size: 0.9rem; color: #6c757d;">Site web professionnel jusqu'à 15 pages, SEO avancé, Blog intégré</span>
+                        </td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: right;">29,99€</td>
+                        <td style="text-align: right; font-weight: 700;">29,99€</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Email professionnel</strong><br>
+                            <span style="font-size: 0.9rem; color: #6c757d;">contact@votreentreprise.fr - Boîte mail 10 GB</span>
+                        </td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: right;">5,00€</td>
+                        <td style="text-align: right; font-weight: 700;">5,00€</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>SEO Premium</strong><br>
+                            <span style="font-size: 0.9rem; color: #6c757d;">Optimisation avancée pour les moteurs de recherche</span>
+                        </td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: right;">25,00€</td>
+                        <td style="text-align: right; font-weight: 700;">25,00€</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="display: flex; justify-content: flex-end;">
+                <div style="width: 350px;">
+                    <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #e9ecef;">
+                        <span>Sous-total HT</span>
+                        <strong>59,99€</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 2px solid var(--primary);">
+                        <span>TVA (20%)</span>
+                        <strong>0,00€</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 1.5rem 0;">
+                        <span style="font-size: 1.5rem; font-weight: 700;">Total TTC</span>
+                        <span class="grand-total">59,99€</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="paid-badge" style="margin-top: 3rem;">
+                <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">✅ Facture payée</div>
+                <div style="font-size: 0.9rem; line-height: 1.6;">
+                    <strong>Mode de paiement :</strong> Carte bancaire Visa •••• 4242<br>
+                    <strong>Date de paiement :</strong> 15 février 2024<br>
+                    <strong>Transaction ID :</strong> txn_1OabCD2eZvKYlo2C3nV4k5L6
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #e9ecef;">
+                <p style="font-size: 0.9rem; color: #6c757d; line-height: 1.8;">
+                    <strong>Notes :</strong><br>
+                    Merci pour votre confiance ! Cette facture est émise automatiquement chaque mois.<br>
+                    Pour toute question, contactez-nous à <a href="mailto:facturation@gemiteforme.com" style="color: #f5576c;">facturation@gemiteforme.com</a>
+                </p>
+            </div>
+            
+            <div style="margin-top: 3rem; text-align: center; padding-top: 2rem; border-top: 1px solid #e9ecef;">
+                <p style="font-size: 0.85rem; color: #adb5bd; line-height: 1.6;">
+                    Gemiteforme SAS - 123 Avenue des Champs-Élysées, 75008 Paris<br>
+                    SIRET : XXX XXX XXX XXXXX | TVA : FR XX XXX XXX XXX<br>
+                    contact@gemiteforme.com | +33 1 23 45 67 89
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

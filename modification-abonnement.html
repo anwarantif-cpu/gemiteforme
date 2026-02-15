@@ -7,211 +7,227 @@
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .subscription-container { max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem; }
-        .plan-card { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 3px solid transparent; transition: all 0.3s; }
-        .plan-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .plan-card.current { border-color: var(--secondary); background: linear-gradient(135deg, rgba(0,217,255,0.05), rgba(0,217,255,0.1)); }
-        .option-item { background: var(--bg); padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .option-item.active { background: rgba(0,217,255,0.1); border: 2px solid var(--secondary); }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f8f9fa; font-family: 'Lexend', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .page-title { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin-bottom: 0.5rem; }
+        .page-subtitle { color: #6c757d; font-size: 1.1rem; margin-bottom: 3rem; }
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .plan-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 3px solid transparent; transition: all 0.3s; position: relative; }
+        .plan-card:hover { border-color: #f5576c; transform: translateY(-5px); }
+        .plan-card.current { border-color: #00d9ff; background: linear-gradient(135deg, rgba(0,217,255,0.05), rgba(0,217,255,0.1)); }
+        .current-badge { background: #00d9ff; color: white; padding: 0.5rem 1rem; border-radius: 50px; font-weight: 700; font-size: 0.85rem; display: inline-block; margin-bottom: 1rem; }
+        .plan-name { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem; }
+        .plan-price { font-size: 3rem; font-weight: 900; color: #f5576c; margin-bottom: 0.5rem; }
+        .plan-period { color: #6c757d; margin-bottom: 2rem; }
+        .plan-features { list-style: none; padding: 0; margin: 0 0 2rem 0; }
+        .plan-features li { padding: 0.8rem 0; color: #495057; display: flex; align-items: center; gap: 0.5rem; }
+        .plan-features li::before { content: '✓'; color: #28a745; font-weight: 700; }
+        .card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .card-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 2rem; }
+        .option-item { background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .option-item.active { background: rgba(0,217,255,0.1); border: 2px solid #00d9ff; }
+        .option-name { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .option-desc { color: #6c757d; font-size: 0.9rem; }
+        .option-price { font-size: 1.5rem; font-weight: 900; color: #f5576c; }
+        .btn { padding: 1rem 2rem; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; font-size: 1rem; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(245,87,108,0.3); }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-danger:hover { background: #c82333; }
+        .summary-box { background: linear-gradient(135deg, rgba(240,147,251,0.1), rgba(245,87,108,0.1)); padding: 2rem; border-radius: 15px; border: 2px solid #f5576c; }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><a href="index.html" style="text-decoration: none; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gemiteforme</a></div>
-            <ul class="nav-menu">
-                <li><a href="dashboard.html">Mon Espace</a></li>
-                <li><a href="#" onclick="logout()">Déconnexion</a></li>
-            </ul>
-            <div class="mobile-toggle"><span></span><span></span><span></span></div>
-        </nav>
-    </header>
-
-    <section class="subscription-container">
-        <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent); text-decoration: none; margin-bottom: 2rem; font-weight: 600;">
+    <div class="container">
+        <a href="dashboard.html" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #f5576c; text-decoration: none; font-weight: 600; margin-bottom: 2rem;">
             ← Retour au dashboard
         </a>
-
-        <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary);">Modifier mon abonnement</h1>
-        <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 3rem;">Changez de formule ou ajoutez des options à tout moment</p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+        
+        <h1 class="page-title">Modifier mon abonnement</h1>
+        <p class="page-subtitle">Changez de formule ou gérez vos options à tout moment</p>
+        
+        <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem;">Choisir une formule</h2>
+        <div class="plans-grid">
             <div class="plan-card">
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Starter</h3>
-                <div style="font-size: 3rem; font-weight: 900; color: var(--accent); margin: 1rem 0;">9,99€</div>
-                <p style="color: var(--text-light); margin-bottom: 2rem;">par mois</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0;">✓ Jusqu'à 5 pages</li>
-                    <li style="padding: 0.5rem 0;">✓ Design responsive</li>
-                    <li style="padding: 0.5rem 0;">✓ SEO basique</li>
-                    <li style="padding: 0.5rem 0;">✓ Hébergement inclus</li>
+                <div class="plan-name">Starter</div>
+                <div class="plan-price">9,99€</div>
+                <div class="plan-period">par mois</div>
+                <ul class="plan-features">
+                    <li>Jusqu'à 5 pages</li>
+                    <li>Design responsive</li>
+                    <li>SEO basique</li>
+                    <li>Formulaire contact</li>
+                    <li>Hébergement inclus</li>
+                    <li>SSL gratuit</li>
                 </ul>
-                <button class="btn btn-secondary" onclick="changePlan('starter', 9.99)">Passer à Starter</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="changePlan('starter', 9.99)">Passer à Starter</button>
             </div>
-
+            
             <div class="plan-card current">
-                <div style="background: var(--secondary); color: white; padding: 0.5rem 1rem; border-radius: 50px; display: inline-block; font-weight: 700; font-size: 0.85rem; margin-bottom: 1rem;">FORMULE ACTUELLE</div>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Business</h3>
-                <div style="font-size: 3rem; font-weight: 900; color: var(--accent); margin: 1rem 0;">29,99€</div>
-                <p style="color: var(--text-light); margin-bottom: 2rem;">par mois</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0;">✓ Jusqu'à 15 pages</li>
-                    <li style="padding: 0.5rem 0;">✓ Design premium</li>
-                    <li style="padding: 0.5rem 0;">✓ SEO avancé</li>
-                    <li style="padding: 0.5rem 0;">✓ Blog intégré</li>
-                    <li style="padding: 0.5rem 0;">✓ Google Analytics</li>
+                <span class="current-badge">FORMULE ACTUELLE</span>
+                <div class="plan-name">Business</div>
+                <div class="plan-price">29,99€</div>
+                <div class="plan-period">par mois</div>
+                <ul class="plan-features">
+                    <li>Jusqu'à 15 pages</li>
+                    <li>Design premium personnalisé</li>
+                    <li>SEO avancé</li>
+                    <li>Blog intégré</li>
+                    <li>Google Analytics</li>
+                    <li>3 révisions incluses</li>
+                    <li>Support prioritaire</li>
                 </ul>
-                <button class="btn btn-secondary" disabled style="opacity: 0.5; cursor: not-allowed;">Formule actuelle</button>
+                <button class="btn btn-secondary" style="width: 100%; opacity: 0.5; cursor: not-allowed;" disabled>Formule actuelle</button>
             </div>
-
+            
             <div class="plan-card">
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">E-commerce</h3>
-                <div style="font-size: 3rem; font-weight: 900; color: var(--accent); margin: 1rem 0;">79,99€</div>
-                <p style="color: var(--text-light); margin-bottom: 2rem;">par mois</p>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
-                    <li style="padding: 0.5rem 0;">✓ Pages illimitées</li>
-                    <li style="padding: 0.5rem 0;">✓ Boutique en ligne</li>
-                    <li style="padding: 0.5rem 0;">✓ Paiement Stripe</li>
-                    <li style="padding: 0.5rem 0;">✓ Gestion produits</li>
-                    <li style="padding: 0.5rem 0;">✓ Support 24/7</li>
+                <div class="plan-name">E-commerce</div>
+                <div class="plan-price">79,99€</div>
+                <div class="plan-period">par mois</div>
+                <ul class="plan-features">
+                    <li>Pages illimitées</li>
+                    <li>Boutique en ligne complète</li>
+                    <li>Paiement en ligne (Stripe)</li>
+                    <li>Gestion stock & produits</li>
+                    <li>Design sur mesure</li>
+                    <li>Support 24/7</li>
+                    <li>Formation incluse</li>
                 </ul>
-                <button class="btn btn-primary" onclick="changePlan('ecommerce', 79.99)">Passer à E-commerce</button>
+                <button class="btn btn-primary" style="width: 100%;" onclick="changePlan('ecommerce', 79.99)">Passer à E-commerce</button>
             </div>
         </div>
-
-        <div style="background: white; padding: 3rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 3rem;">
-            <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--primary);">Mes options</h2>
+        
+        <div class="card">
+            <h2 class="card-title">Mes options</h2>
             
             <div class="option-item active">
                 <div>
-                    <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">📧 Email professionnel</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">contact@votreentreprise.fr - Actif</p>
+                    <div class="option-name">📧 Email professionnel</div>
+                    <div class="option-desc">contact@votreentreprise.fr - Actif</div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.3rem; font-weight: 700; color: var(--accent);">5€/mois</span>
-                    <button class="btn btn-secondary" onclick="if(confirm('Désactiver cette option ?')) alert('Option désactivée')">Désactiver</button>
+                    <span class="option-price">5€/mois</span>
+                    <button class="btn btn-secondary" onclick="toggleOption(this, 'email', 5)">Désactiver</button>
                 </div>
             </div>
-
+            
             <div class="option-item">
                 <div>
-                    <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">📅 Système de réservation</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">Prise de rendez-vous en ligne</p>
+                    <div class="option-name">📅 Système de réservation</div>
+                    <div class="option-desc">Prise de rendez-vous en ligne</div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.3rem; font-weight: 700; color: var(--text);">15€/mois</span>
-                    <button class="btn btn-primary" onclick="addOption('reservation', 15)">Activer</button>
+                    <span style="font-size: 1.3rem; font-weight: 700; color: #495057;">15€/mois</span>
+                    <button class="btn btn-primary" onclick="toggleOption(this, 'reservation', 15)">Activer</button>
                 </div>
             </div>
-
+            
             <div class="option-item">
                 <div>
-                    <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">🌍 Site multilingue</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">2 langues supplémentaires</p>
+                    <div class="option-name">🌍 Site multilingue</div>
+                    <div class="option-desc">2 langues supplémentaires</div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.3rem; font-weight: 700; color: var(--text);">20€/mois</span>
-                    <button class="btn btn-primary" onclick="addOption('multilang', 20)">Activer</button>
+                    <span style="font-size: 1.3rem; font-weight: 700; color: #495057;">20€/mois</span>
+                    <button class="btn btn-primary" onclick="toggleOption(this, 'multilang', 20)">Activer</button>
                 </div>
             </div>
-
+            
             <div class="option-item active">
                 <div>
-                    <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">📈 SEO Premium</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">Optimisation avancée Google - Actif</p>
+                    <div class="option-name">📈 SEO Premium</div>
+                    <div class="option-desc">Optimisation avancée Google - Actif</div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.3rem; font-weight: 700; color: var(--accent);">25€/mois</span>
-                    <button class="btn btn-secondary" onclick="if(confirm('Désactiver cette option ?')) alert('Option désactivée')">Désactiver</button>
+                    <span class="option-price">25€/mois</span>
+                    <button class="btn btn-secondary" onclick="toggleOption(this, 'seo', 25)">Désactiver</button>
                 </div>
             </div>
-
+            
             <div class="option-item">
                 <div>
-                    <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">✏️ Rédaction de contenu</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;">Textes professionnels optimisés</p>
+                    <div class="option-name">✏️ Rédaction de contenu</div>
+                    <div class="option-desc">Textes professionnels optimisés</div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 1.3rem; font-weight: 700; color: var(--text);">30€/mois</span>
-                    <button class="btn btn-primary" onclick="addOption('redaction', 30)">Activer</button>
+                    <span style="font-size: 1.3rem; font-weight: 700; color: #495057;">30€/mois</span>
+                    <button class="btn btn-primary" onclick="toggleOption(this, 'redaction', 30)">Activer</button>
                 </div>
             </div>
         </div>
-
-        <div style="background: #f0f7ff; padding: 2rem; border-radius: 20px; margin-bottom: 3rem;">
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Récapitulatif de votre abonnement</h3>
+        
+        <div class="summary-box">
+            <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem;">Récapitulatif de votre abonnement</h3>
             <div style="display: grid; gap: 1rem;">
-                <div style="display: flex; justify-content: space-between;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
                     <span>Formule Business</span>
                     <strong>29,99€</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
                     <span>Email professionnel</span>
                     <strong>5,00€</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem 0;">
                     <span>SEO Premium</span>
                     <strong>25,00€</strong>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding-top: 1rem; border-top: 2px solid var(--primary); font-size: 1.5rem; font-weight: 900; color: var(--accent);">
+                <div style="display: flex; justify-content: space-between; padding: 1.5rem 0; border-top: 2px solid var(--primary); font-size: 1.8rem; font-weight: 900;">
                     <span>Total mensuel</span>
-                    <span>59,99€</span>
+                    <span style="color: #f5576c;">59,99€</span>
                 </div>
             </div>
-            <p style="margin-top: 1.5rem; color: var(--text-light); font-size: 0.9rem;">
+            <p style="margin-top: 1rem; color: #6c757d; font-size: 0.9rem;">
                 💡 Les modifications seront effectives dès le prochain cycle de facturation (15 mars 2024)
             </p>
         </div>
-
-        <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
-            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary);">Annuler mon abonnement</h3>
-            <p style="color: var(--text-light); margin-bottom: 1.5rem;">
+        
+        <div class="card" style="margin-top: 2rem;">
+            <h2 class="card-title">Zone de danger</h2>
+            <p style="color: #6c757d; margin-bottom: 1.5rem;">
                 Vous pouvez annuler votre abonnement à tout moment. Votre site restera actif jusqu'à la fin de la période payée.
             </p>
-            <button class="btn btn-secondary" onclick="cancelSubscription()" style="background: #fee; color: #c00; border: 2px solid #c00;">
-                ⚠️ Annuler mon abonnement
-            </button>
+            <button class="btn btn-danger" onclick="cancelSubscription()">⚠️ Annuler mon abonnement</button>
         </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section"><h3>Gemiteforme</h3><p>Créez votre présence en ligne professionnelle en 48h.</p></div>
-            <div class="footer-section"><h3>Navigation</h3><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="tarifs.html">Tarifs</a></li></ul></div>
-            <div class="footer-section"><h3>Légal</h3><ul class="footer-links"><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li></ul></div>
-            <div class="footer-section"><h3>Contact</h3><ul class="footer-links"><li><a href="mailto:contact@gemiteforme.com">contact@gemiteforme.com</a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2024 Gemiteforme. Hébergé par Scaleway.</p></div>
-    </footer>
-
-    <script src="assets/js/main.js"></script>
+    </div>
+    
     <script>
         function changePlan(plan, price) {
             if (confirm(`Voulez-vous passer à la formule ${plan} (${price}€/mois) ?\n\nLe changement sera effectif dès le prochain cycle de facturation.`)) {
                 alert('✅ Formule modifiée avec succès !\n\nVous recevrez un email de confirmation.');
-                setTimeout(() => window.location.href = 'dashboard.html', 1000);
+                setTimeout(() => window.location.href = 'dashboard.html', 1500);
             }
         }
-
-        function addOption(option, price) {
-            if (confirm(`Voulez-vous activer cette option (${price}€/mois) ?\n\nElle sera ajoutée à votre prochaine facture.`)) {
-                alert('✅ Option activée avec succès !');
-                location.reload();
+        
+        function toggleOption(btn, option, price) {
+            const optionItem = btn.closest('.option-item');
+            const isActive = optionItem.classList.contains('active');
+            
+            if (isActive) {
+                if (confirm(`Désactiver cette option (${price}€/mois) ?`)) {
+                    optionItem.classList.remove('active');
+                    btn.textContent = 'Activer';
+                    btn.className = 'btn btn-primary';
+                    alert('Option désactivée pour le prochain cycle.');
+                }
+            } else {
+                if (confirm(`Activer cette option (${price}€/mois) ?`)) {
+                    optionItem.classList.add('active');
+                    btn.textContent = 'Désactiver';
+                    btn.className = 'btn btn-secondary';
+                    alert('Option activée pour le prochain cycle.');
+                }
             }
         }
-
+        
         function cancelSubscription() {
             if (confirm('⚠️ Êtes-vous sûr de vouloir annuler votre abonnement ?\n\nVotre site restera actif jusqu\'au 15 mars 2024.')) {
                 if (confirm('Cette action est irréversible. Confirmer l\'annulation ?')) {
                     alert('Votre demande d\'annulation a été prise en compte.\n\nVous recevrez un email de confirmation.');
-                    setTimeout(() => window.location.href = 'dashboard.html', 1000);
+                    setTimeout(() => window.location.href = 'dashboard.html', 1500);
                 }
-            }
-        }
-
-        function logout() {
-            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                window.location.href = 'index.html';
             }
         }
     </script>
