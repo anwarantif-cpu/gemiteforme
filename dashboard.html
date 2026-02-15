@@ -3,214 +3,1043 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Espace - Gemiteforme</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <title>Dashboard - Gemiteforme</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .dashboard-container { max-width: 1400px; margin: 0 auto; padding: 8rem 2rem 4rem; }
-        .dashboard-grid { display: grid; grid-template-columns: 250px 1fr; gap: 3rem; }
-        .sidebar { background: white; padding: 2rem; border-radius: 25px; height: fit-content; position: sticky; top: 100px; }
-        .sidebar-menu { list-style: none; }
-        .sidebar-menu li { margin-bottom: 0.5rem; }
-        .sidebar-menu a { display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 15px; color: var(--text); text-decoration: none; transition: all 0.3s; }
-        .sidebar-menu a:hover, .sidebar-menu a.active { background: var(--gradient-2); color: white; }
-        .dashboard-content { }
-        .card { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); margin-bottom: 2rem; }
-        .order-status { display: inline-block; padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; }
-        .status-pending { background: #fff3cd; color: #856404; }
-        .status-progress { background: #cfe2ff; color: #084298; }
-        .status-completed { background: #d1e7dd; color: #0f5132; }
-        @media (max-width: 968px) { .dashboard-grid { grid-template-columns: 1fr; } .sidebar { position: relative; top: 0; } }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #f8f9fa; }
+        
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: linear-gradient(180deg, #0f0638 0%, #1a0b52 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            margin: 1.5rem;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 1rem;
+            margin: 0;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.3rem;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, rgba(240,147,251,0.2), rgba(245,87,108,0.2));
+            color: white;
+            border-left: 3px solid #f5576c;
+        }
+        
+        .sidebar-menu a .icon {
+            font-size: 1.3rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+        
+        .plan-badge {
+            background: rgba(0,217,255,0.2);
+            border: 2px solid #00d9ff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        
+        .plan-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #00d9ff;
+            margin-top: 0.3rem;
+        }
+        
+        /* Main content */
+        .main-content {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+        
+        .topbar {
+            background: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .topbar-title h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .notification-btn {
+            position: relative;
+            background: #f8f9fa;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+        
+        .notification-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #f5576c;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .content-area {
+            padding: 2rem;
+        }
+        
+        /* Stats cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .stat-card.blue::before {
+            background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .stat-card.purple::before {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .stat-card.green::before {
+            background: linear-gradient(180deg, #56ab2f 0%, #a8e063 100%);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(240,147,251,0.1), rgba(245,87,108,0.1));
+        }
+        
+        .stat-card.blue .stat-icon {
+            background: linear-gradient(135deg, rgba(79,172,254,0.1), rgba(0,242,254,0.1));
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            color: #6c757d;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-change {
+            font-size: 0.85rem;
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .stat-change.negative {
+            color: #dc3545;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0;
+        }
+        
+        /* Site status */
+        .site-status {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(40,167,69,0.1), rgba(168,224,99,0.1));
+            border-radius: 15px;
+            border: 2px solid #28a745;
+        }
+        
+        .status-indicator {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .status-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .status-info p {
+            color: #6c757d;
+            margin: 0;
+        }
+        
+        .status-url {
+            margin-top: 0.5rem;
+        }
+        
+        .status-url a {
+            color: #f5576c;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* Activity timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9ecef;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -1.5rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #f5576c;
+        }
+        
+        .timeline-dot.blue {
+            border-color: #4facfe;
+        }
+        
+        .timeline-dot.green {
+            border-color: #28a745;
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+        
+        .timeline-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .timeline-content p {
+            color: #6c757d;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .timeline-time {
+            font-size: 0.85rem;
+            color: #adb5bd;
+        }
+        
+        /* Quick actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .quick-action-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245,87,108,0.3);
+        }
+        
+        .quick-action-btn.secondary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .quick-action-btn.secondary:hover {
+            box-shadow: 0 10px 30px rgba(79,172,254,0.3);
+        }
+        
+        .quick-action-btn .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Tickets preview */
+        .ticket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .ticket-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .ticket-info h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .ticket-meta {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .ticket-status {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .ticket-status.open {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .ticket-status.progress {
+            background: #cfe2ff;
+            color: #084298;
+        }
+        
+        .ticket-status.resolved {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+        
+        /* Responsive */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 968px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Section switching */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo"><a href="index.html" style="text-decoration: none; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gemiteforme</a></div>
-            <ul class="nav-menu">
-                <li><a href="dashboard.html">Mon Espace</a></li>
-                <li><a href="#" onclick="logout()">Déconnexion</a></li>
-            </ul>
-            <div class="mobile-toggle"><span></span><span></span><span></span></div>
-        </nav>
-    </header>
-
-    <section class="dashboard-container">
-        <div class="dashboard-grid">
-            <aside class="sidebar">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <div style="width: 80px; height: 80px; background: var(--gradient-2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 800;">JD</div>
-                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">Jean Dupont</h3>
-                    <p style="color: var(--text-light); font-size: 0.9rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4aea1a5aa84a1bca5a9b4a8a1eaa7aba9">[email&#160;protected]</a></p>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">Gemiteforme</div>
+            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0;">Dashboard Client</p>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar">JD</div>
+            <div>
+                <div style="font-weight: 700; font-size: 1.05rem;">Jean Dupont</div>
+                <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3d57585c537d58455c504d5158135e5250">[email&#160;protected]</a></div>
+            </div>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" onclick="showSection('overview'); return false;">
+                <span class="icon">📊</span>
+                <span>Vue d'ensemble</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('site'); return false;">
+                <span class="icon">🌐</span>
+                <span>Mon site</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('analytics'); return false;">
+                <span class="icon">📈</span>
+                <span>Statistiques</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('subscription'); return false;">
+                <span class="icon">💳</span>
+                <span>Abonnement</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('invoices'); return false;">
+                <span class="icon">🧾</span>
+                <span>Factures</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('support'); return false;">
+                <span class="icon">🎫</span>
+                <span>Support</span>
+            </a></li>
+            <li><a href="#" onclick="showSection('settings'); return false;">
+                <span class="icon">⚙️</span>
+                <span>Paramètres</span>
+            </a></li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <div class="plan-badge">
+                <div class="plan-name">Plan Business</div>
+                <div class="plan-price">59,99€/mois</div>
+                <div style="font-size: 0.8rem; margin-top: 0.5rem; color: rgba(255,255,255,0.8);">Prochain paiement : 15 mars</div>
+            </div>
+            <a href="index.html" style="display: block; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 12px; text-align: center; color: white; text-decoration: none; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                🚪 Déconnexion
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                <div class="topbar-title">
+                    <h1 id="pageTitle">Vue d'ensemble</h1>
                 </div>
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active"><span>📊</span> Mes commandes</a></li>
-                    <li><a href="#"><span>⚙️</span> Paramètres</a></li>
-                    <li><a href="#"><span>💳</span> Facturation</a></li>
-                    <li><a href="#"><span>🎫</span> Support</a></li>
-                </ul>
-            </aside>
-
-            <main class="dashboard-content">
-                <h1 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--primary);">Mes Commandes</h1>
-
+            </div>
+            <div class="topbar-actions">
+                <button class="notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                <div style="width: 45px; height: 45px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; cursor: pointer;">JD</div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- OVERVIEW SECTION -->
+            <div id="overview" class="content-section active">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">🌐</div>
+                        <div class="stat-label">Statut du site</div>
+                        <div class="stat-value">En ligne</div>
+                        <div class="stat-change">✓ 99.9% uptime</div>
+                    </div>
+                    
+                    <div class="stat-card blue">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-label">Visiteurs (30j)</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-change">+12.5% vs mois dernier</div>
+                    </div>
+                    
+                    <div class="stat-card purple">
+                        <div class="stat-icon">📄</div>
+                        <div class="stat-label">Pages vues</div>
+                        <div class="stat-value">3,521</div>
+                        <div class="stat-change">+8.3%</div>
+                    </div>
+                    
+                    <div class="stat-card green">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-label">Performance</div>
+                        <div class="stat-value">94/100</div>
+                        <div class="stat-change">PageSpeed Score</div>
+                    </div>
+                </div>
+                
+                <!-- Site Status -->
                 <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                    <div class="site-status">
+                        <div class="status-indicator">✓</div>
+                        <div class="status-info" style="flex: 1;">
+                            <h3>🟢 Votre site est en ligne</h3>
+                            <p>Dernière vérification : Il y a 2 minutes</p>
+                            <p class="status-url">URL : <a href="https://votresite.com" target="_blank">https://votresite.com</a></p>
+                        </div>
+                        <button class="btn btn-primary" onclick="window.open('https://votresite.com', '_blank')" style="padding: 1rem 2rem;">Voir mon site →</button>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Actions rapides</h2>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" onclick="showSection('support')">
+                            <span class="icon">📧</span>
+                            Demander une modification
+                        </button>
+                        <button class="quick-action-btn secondary" onclick="alert('Téléchargement...')">
+                            <span class="icon">📥</span>
+                            Télécharger les fichiers
+                        </button>
+                        <button class="quick-action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" onclick="showSection('invoices')">
+                            <span class="icon">🧾</span>
+                            Voir les factures
+                        </button>
+                        <button class="quick-action-btn secondary" onclick="showSection('subscription')">
+                            <span class="icon">⚙️</span>
+                            Gérer l'abonnement
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem;">
+                    <!-- Activity Timeline -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Activité récente</h2>
+                            <a href="#" style="color: #f5576c; font-weight: 600; text-decoration: none;">Tout voir →</a>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot green"></div>
+                                <div class="timeline-content">
+                                    <h4>✅ Site mis en ligne</h4>
+                                    <p>Votre site est maintenant accessible au public</p>
+                                    <span class="timeline-time">Il y a 2 jours</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot blue"></div>
+                                <div class="timeline-content">
+                                    <h4>💳 Paiement effectué</h4>
+                                    <p>59,99€ - Facture #2024-003</p>
+                                    <span class="timeline-time">Il y a 3 jours</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>🎨 Design validé</h4>
+                                    <p>Votre maquette a été approuvée</p>
+                                    <span class="timeline-time">Il y a 5 jours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Support Tickets -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Tickets support</h2>
+                            <button class="btn btn-primary" onclick="showSection('support')" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">+ Nouveau</button>
+                        </div>
+                        <div class="ticket-item" onclick="window.location.href='ticket-detail.html'">
+                            <div class="ticket-info">
+                                <h4>#00123</h4>
+                                <p class="ticket-meta">Modification du logo</p>
+                            </div>
+                            <span class="ticket-status progress">En cours</span>
+                        </div>
+                        <div class="ticket-item">
+                            <div class="ticket-info">
+                                <h4>#00122</h4>
+                                <p class="ticket-meta">Question SEO</p>
+                            </div>
+                            <span class="ticket-status resolved">Résolu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SITE SECTION -->
+            <div id="site" class="content-section">
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Informations du site</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                         <div>
-                            <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">Commande #12345</h3>
-                            <p style="color: var(--text-light);">Passée le 10 février 2024</p>
+                            <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Nom de domaine</label>
+                            <input type="text" value="votresite.com" readonly style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px; background: #f8f9fa; font-weight: 600;">
                         </div>
-                        <span class="order-status status-progress">En cours</span>
+                        <div>
+                            <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Certificat SSL</label>
+                            <input type="text" value="✅ Actif (Let's Encrypt)" readonly style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px; background: #f8f9fa; font-weight: 600; color: #28a745;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Hébergement</label>
+                            <input type="text" value="Scaleway (France)" readonly style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px; background: #f8f9fa; font-weight: 600;">
+                        </div>
+                        <div>
+                            <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Dernière mise à jour</label>
+                            <input type="text" value="12 février 2024" readonly style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px; background: #f8f9fa; font-weight: 600;">
+                        </div>
                     </div>
-
-                    <div style="display: grid; gap: 1.5rem;">
-                        <div style="padding: 1.5rem; background: var(--bg); border-radius: 15px;">
-                            <h4 style="font-weight: 600; margin-bottom: 1rem;">📦 Étapes de livraison</h4>
-                            <div style="position: relative; padding-left: 2rem;">
-                                <div style="position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #e5e5e5;"></div>
-                                <div style="margin-bottom: 1.5rem; position: relative;">
-                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; border: 3px solid white;"></div>
-                                    <strong>✓ Commande reçue</strong>
-                                    <p style="color: var(--text-light); font-size: 0.9rem;">10 février 2024, 14:30</p>
-                                </div>
-                                <div style="margin-bottom: 1.5rem; position: relative;">
-                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--secondary); border-radius: 50%; border: 3px solid white;"></div>
-                                    <strong>✓ Informations complétées</strong>
-                                    <p style="color: var(--text-light); font-size: 0.9rem;">10 février 2024, 15:00</p>
-                                </div>
-                                <div style="margin-bottom: 1.5rem; position: relative;">
-                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: var(--accent); border-radius: 50%; border: 3px solid white; animation: pulse 2s infinite;"></div>
-                                    <strong>🔄 Design en cours</strong>
-                                    <p style="color: var(--text-light); font-size: 0.9rem;">Livraison prévue : 12 février 2024</p>
-                                </div>
-                                <div style="position: relative;">
-                                    <div style="position: absolute; left: -1.95rem; width: 20px; height: 20px; background: #e5e5e5; border-radius: 50%; border: 3px solid white;"></div>
-                                    <strong style="color: var(--text-light);">Livraison</strong>
-                                    <p style="color: var(--text-light); font-size: 0.9rem;">En attente</p>
-                                </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Actions</h2>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" onclick="window.open('https://votresite.com', '_blank')">
+                            <span class="icon">🌐</span>
+                            Voir le site
+                        </button>
+                        <button class="quick-action-btn secondary" onclick="alert('Téléchargement...')">
+                            <span class="icon">📥</span>
+                            Télécharger fichiers
+                        </button>
+                        <button class="quick-action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" onclick="alert('Accès FTP envoyé par email')">
+                            <span class="icon">🔑</span>
+                            Accès FTP
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ANALYTICS SECTION -->
+            <div id="analytics" class="content-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-label">Visiteurs uniques</div>
+                        <div class="stat-value">1,247</div>
+                        <div class="stat-change">+156 vs mois dernier</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-icon">📄</div>
+                        <div class="stat-label">Pages vues</div>
+                        <div class="stat-value">3,521</div>
+                        <div class="stat-change">+271 vs mois dernier</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-label">Temps moyen</div>
+                        <div class="stat-value">2m15s</div>
+                        <div class="stat-change">+18s vs mois dernier</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-label">Taux de rebond</div>
+                        <div class="stat-value">42%</div>
+                        <div class="stat-change negative">-3% (amélioration)</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Aperçu graphique</h2>
+                    <div style="background: #f8f9fa; padding: 4rem; border-radius: 15px; text-align: center;">
+                        <p style="color: #6c757d; font-size: 1.2rem;">📊 Graphique Google Analytics</p>
+                        <p style="color: #adb5bd; margin-top: 1rem;">Intégration Google Analytics affichée ici</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SUBSCRIPTION SECTION -->
+            <div id="subscription" class="content-section">
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Mon abonnement</h2>
+                    <div style="background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,217,255,0.05)); padding: 2rem; border-radius: 15px; border: 2px solid #00d9ff; margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin: 0 0 0.5rem 0;">Plan Business</h3>
+                                <p style="color: #6c757d; margin: 0;">Jusqu'à 15 pages • SEO avancé • Blog intégré</p>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 2.5rem; font-weight: 900; color: #00d9ff;">59,99€</div>
+                                <div style="color: #6c757d;">par mois</div>
                             </div>
                         </div>
-
-                        <div style="padding: 1.5rem; background: var(--bg); border-radius: 15px;">
-                            <h4 style="font-weight: 600; margin-bottom: 1rem;">📄 Détails de la commande</h4>
-                            <div style="display: grid; gap: 0.8rem;">
-                                <div style="display: flex; justify-content: space-between;"><span>Type de site :</span><strong>Portfolio</strong></div>
-                                <div style="display: flex; justify-content: space-between;"><span>Entreprise :</span><strong>Studio Photo JD</strong></div>
-                                <div style="display: flex; justify-content: space-between;"><span>Montant :</span><strong style="color: var(--accent);">9,99€</strong></div>
+                    </div>
+                    
+                    <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--primary);">Options actives</h3>
+                    <div style="display: grid; gap: 1rem; margin-bottom: 2rem;">
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>📧 Email professionnel</strong>
+                                <p style="color: #6c757d; margin: 0.3rem 0 0 0; font-size: 0.9rem;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbb8b4b5afbab8af9badb4afa9bebeb5afa9beaba9b2a8bef5bda9">[email&#160;protected]</a></p>
+                            </div>
+                            <span style="font-weight: 700;">5€/mois</span>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>📈 SEO Premium</strong>
+                                <p style="color: #6c757d; margin: 0.3rem 0 0 0; font-size: 0.9rem;">Optimisation avancée</p>
+                            </div>
+                            <span style="font-weight: 700;">25€/mois</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-primary" onclick="window.location.href='modification-abonnement.html'">Modifier mon abonnement</button>
+                        <button class="btn btn-secondary" onclick="if(confirm('Voulez-vous vraiment annuler ?')) alert('Annulation programmée')">Annuler l'abonnement</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Prochain paiement</h2>
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="color: #6c757d; margin: 0 0 0.5rem 0;">Date de prélèvement</p>
+                                <h3 style="font-size: 1.5rem; font-weight: 700; margin: 0;">15 mars 2024</h3>
+                            </div>
+                            <div style="text-align: right;">
+                                <p style="color: #6c757d; margin: 0 0 0.5rem 0;">Montant</p>
+                                <h3 style="font-size: 2rem; font-weight: 900; color: #f5576c; margin: 0;">59,99€</h3>
                             </div>
                         </div>
-
-                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                            <button class="btn btn-primary" onclick="alert('Ouvrir le chat support')">💬 Contacter le support</button>
-                            <button class="btn btn-secondary" onclick="alert('Télécharger la facture')">📥 Télécharger la facture</button>
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #dee2e6;">
+                            <p style="color: #6c757d; font-size: 0.9rem; margin: 0;">💳 Carte Visa •••• 4242</p>
                         </div>
                     </div>
                 </div>
-
-                <div style="text-align: center; padding: 3rem; background: white; border-radius: 25px;">
-                    <p style="color: var(--text-light); margin-bottom: 1.5rem;">Besoin d'un autre site ?</p>
-                    <a href="commander.html" class="btn btn-primary">Commander un nouveau site →</a>
-                </div>
-            </main>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section"><h3>Gemiteforme</h3><p>Créez votre présence en ligne professionnelle en 48h.</p></div>
-            <div class="footer-section"><h3>Navigation</h3><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="tarifs.html">Tarifs</a></li></ul></div>
-            <div class="footer-section"><h3>Légal</h3><ul class="footer-links"><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li></ul></div>
-            <div class="footer-section"><h3>Contact</h3><ul class="footer-links"><li><a href="/cdn-cgi/l/email-protection#2b4844455f4a485f6b4c4e46425f4e4d4459464e05484446"><span class="__cf_email__" data-cfemail="a4c7cbcad0c5c7d0e4c3c1c9cdd0c1c2cbd6c9c18ac7cbc9">[email&#160;protected]</span></a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>&#169; 2024 Gemiteforme. Hébergé par Scaleway.</p></div>
-    </footer>
-    <div id="changePasswordModal" class="modal">
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem; color: var(--primary);">Changer le mot de passe</h2>
-                <button onclick="closeModal('changePasswordModal')" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-light);">&#215;</button>
             </div>
-            <form onsubmit="changePassword(event)">
-                <div style="display: grid; gap: 1.5rem;">
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Mot de passe actuel</label>
-                        <input type="password" required style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
+            
+            <!-- INVOICES SECTION -->
+            <div id="invoices" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Mes factures</h2>
+                        <button class="btn btn-secondary" onclick="alert('Téléchargement de toutes les factures...')">📥 Tout télécharger</button>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Nouveau mot de passe</label>
-                        <input type="password" required minlength="8" style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                        <small style="color: var(--text-light);">Minimum 8 caractères</small>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f8f9fa;">
+                                    <th style="padding: 1rem; text-align: left; font-weight: 700;">N° Facture</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 700;">Date</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 700;">Montant</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 700;">Statut</th>
+                                    <th style="padding: 1rem; text-align: left; font-weight: 700;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e9ecef;">
+                                    <td style="padding: 1.5rem 1rem;"><strong>#2024-003</strong></td>
+                                    <td style="padding: 1.5rem 1rem;">15 février 2024</td>
+                                    <td style="padding: 1.5rem 1rem; font-weight: 700;">59,99€</td>
+                                    <td style="padding: 1.5rem 1rem;"><span class="ticket-status resolved">Payée</span></td>
+                                    <td style="padding: 1.5rem 1rem;">
+                                        <button class="btn btn-secondary" onclick="window.location.href='facture.html'" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📥 PDF</button>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e9ecef;">
+                                    <td style="padding: 1.5rem 1rem;"><strong>#2024-002</strong></td>
+                                    <td style="padding: 1.5rem 1rem;">15 janvier 2024</td>
+                                    <td style="padding: 1.5rem 1rem; font-weight: 700;">59,99€</td>
+                                    <td style="padding: 1.5rem 1rem;"><span class="ticket-status resolved">Payée</span></td>
+                                    <td style="padding: 1.5rem 1rem;">
+                                        <button class="btn btn-secondary" onclick="alert('Téléchargement...')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📥 PDF</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1.5rem 1rem;"><strong>#2024-001</strong></td>
+                                    <td style="padding: 1.5rem 1rem;">10 décembre 2023</td>
+                                    <td style="padding: 1.5rem 1rem; font-weight: 700;">59,99€</td>
+                                    <td style="padding: 1.5rem 1rem;"><span class="ticket-status resolved">Payée</span></td>
+                                    <td style="padding: 1.5rem 1rem;">
+                                        <button class="btn btn-secondary" onclick="alert('Téléchargement...')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📥 PDF</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Confirmer le mot de passe</label>
-                        <input type="password" required minlength="8" style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Changer le mot de passe</button>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal Créer un ticket -->
-    <div id="createTicketModal" class="modal">
-        <div class="modal-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem; color: var(--primary);">Nouveau ticket de support</h2>
-                <button onclick="closeModal('createTicketModal')" style="background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-light);">&#215;</button>
             </div>
-            <form onsubmit="createTicket(event)">
-                <div style="display: grid; gap: 1.5rem;">
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Catégorie</label>
-                        <select required style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                            <option value="">Sélectionnez...</option>
-                            <option value="technique">Problème technique</option>
-                            <option value="modification">Demande de modification</option>
-                            <option value="facturation">Question facturation</option>
-                            <option value="general">Question générale</option>
-                        </select>
+            
+            <!-- SUPPORT SECTION -->
+            <div id="support" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Mes tickets de support</h2>
+                        <button class="btn btn-primary" onclick="alert('Création d\'un nouveau ticket...')">+ Nouveau ticket</button>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Priorité</label>
-                        <select required style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                            <option value="low">Basse</option>
-                            <option value="medium" selected>Moyenne</option>
-                            <option value="high">Haute</option>
-                            <option value="urgent">Urgente</option>
-                        </select>
+                    <div class="ticket-item" onclick="window.location.href='ticket-detail.html'">
+                        <div class="ticket-info">
+                            <h4>#00123 - Modification du logo</h4>
+                            <p class="ticket-meta">Créé le 14 février 2024 • Priorité moyenne</p>
+                        </div>
+                        <span class="ticket-status progress">En cours</span>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Sujet</label>
-                        <input type="text" required placeholder="Ex: Problème d'affichage sur mobile" style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <h4>#00122 - Question SEO</h4>
+                            <p class="ticket-meta">Créé le 12 février 2024 • Priorité basse</p>
+                        </div>
+                        <span class="ticket-status resolved">Résolu</span>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Description</label>
-                        <textarea required rows="5" placeholder="Décrivez votre problème ou demande en détail..." style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px; resize: vertical;"></textarea>
+                    <div class="ticket-item">
+                        <div class="ticket-info">
+                            <h4>#00121 - Site inaccessible</h4>
+                            <p class="ticket-meta">Créé le 10 février 2024 • Priorité haute</p>
+                        </div>
+                        <span class="ticket-status resolved">Résolu</span>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary);">Pièces jointes (optionnel)</label>
-                        <input type="file" multiple style="width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-radius: 15px;">
-                        <small style="color: var(--text-light);">Captures d'écran, documents... (max 10 Mo)</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Créer le ticket</button>
                 </div>
-            </form>
+                
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Besoin d'aide ?</h2>
+                    <div class="quick-actions">
+                        <a href="#" class="quick-action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <span class="icon">📖</span>
+                            Documentation
+                        </a>
+                        <a href="/cdn-cgi/l/email-protection#27545257574855536740424a4e53424148554a420944484a" class="quick-action-btn secondary">
+                            <span class="icon">📧</span>
+                            Email support
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <span class="icon">💬</span>
+                            Chat en direct
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SETTINGS SECTION -->
+            <div id="settings" class="content-section">
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Informations personnelles</h2>
+                    <form onsubmit="alert('Informations mises à jour !'); return false;">
+                        <div style="display: grid; gap: 1.5rem;">
+                            <div>
+                                <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Nom complet</label>
+                                <input type="text" value="Jean Dupont" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px;">
+                            </div>
+                            <div>
+                                <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Email</label>
+                                <input type="email" value="jean@example.com" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px;">
+                            </div>
+                            <div>
+                                <label style="font-weight: 600; color: #6c757d; display: block; margin-bottom: 0.5rem;">Téléphone</label>
+                                <input type="tel" value="+33 6 12 34 56 78" style="width: 100%; padding: 1rem; border: 2px solid #e9ecef; border-radius: 12px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 2rem;">Sécurité</h2>
+                    <button class="btn btn-secondary" onclick="alert('Changement de mot de passe...')">🔒 Changer le mot de passe</button>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-section"><h3>Gemiteforme</h3><p>Créez votre présence en ligne professionnelle en 48h.</p></div>
-            <div class="footer-section"><h3>Navigation</h3><ul class="footer-links"><li><a href="templates.html">Templates</a></li><li><a href="tarifs.html">Tarifs</a></li></ul></div>
-            <div class="footer-section"><h3>Légal</h3><ul class="footer-links"><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li></ul></div>
-            <div class="footer-section"><h3>Contact</h3><ul class="footer-links"><li><a href="mailto:contact@gemiteforme.com">contact@gemiteforme.com</a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>&copy; 2024 Gemiteforme. Hébergé par Scaleway.</p></div>
-    </footer>
-
-    <script src="assets/js/main.js"></script>
+    </main>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/main.js"></script>
     <script>
-        // Navigation entre sections
         function showSection(sectionId) {
             // Masquer toutes les sections
             document.querySelectorAll('.content-section').forEach(section => {
@@ -226,68 +1055,16 @@
             document.getElementById(sectionId).classList.add('active');
             
             // Activer le lien du menu correspondant
-            event.target.classList.add('active');
-        }
-
-        // Gestion des modals
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Fermer modal en cliquant en dehors
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal(modal.id);
-                }
-            });
-        });
-
-        // Mise à jour du profil
-        function updateProfile(e) {
-            e.preventDefault();
-            alert('✅ Profil mis à jour avec succès !');
-        }
-
-        // Changement de mot de passe
-        function changePassword(e) {
-            e.preventDefault();
-            alert('✅ Mot de passe changé avec succès !');
-            closeModal('changePasswordModal');
-        }
-
-        // Création de ticket
-        function createTicket(e) {
-            e.preventDefault();
-            const ticketNumber = Math.floor(Math.random() * 10000).toString().padStart(5, '0');
-            alert(`✅ Ticket #${ticketNumber} créé avec succès !\n\nNotre équipe vous répondra dans les 24 heures.`);
-            closeModal('createTicketModal');
-            showSection('support');
-        }
-
-        // Téléchargement de facture
-        function downloadInvoice(invoiceNumber) {
-            alert(`📥 Téléchargement de la facture #${invoiceNumber}...\n\nDans une vraie application, cela génèrerait un PDF.`);
-        }
-
-        // Déconnexion
-        function logout() {
-            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-                alert('Déconnexion...');
-                window.location.href = 'index.html';
-            }
-        }
-
-        // Génération automatique de factures (simulation)
-        console.log('📊 Système de facturation automatique activé');
-        console.log('💳 Prochaine facture générée le 15 mars 2024');
-        console.log('🔄 Facturation récurrente mensuelle configurée');
-    </script>
-</body>
-</html>
+            event.target.closest('a').classList.add('active');
+            
+            // Mettre à jour le titre
+            const titles = {
+                'overview': 'Vue d\'ensemble',
+                'site': 'Mon site',
+                'analytics': 'Statistiques',
+                'subscription': 'Abonnement',
+                'invoices': 'Factures',
+                'support': 'Support',
+                'settings': 'Paramètres'
+            };
+            document.getElementById('pageTitle').textContent 
